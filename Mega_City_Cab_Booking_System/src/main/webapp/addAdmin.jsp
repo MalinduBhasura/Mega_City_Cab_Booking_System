@@ -4,11 +4,23 @@
 <head>
     <title>Add Admin</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script>
+        function validateForm() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+
+            if (username.trim() === "" || password.trim() === "") {
+                alert("Username and password are required!");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
     <div class="container">
         <h1>Add Admin</h1>
-        <form action="admin" method="post">
+        <form action="admin" method="post" onsubmit="return validateForm()">
             <input type="hidden" name="action" value="add">
             <div class="form-group">
                 <label for="username">Username</label>
@@ -20,7 +32,6 @@
             </div>
             <button type="submit" class="btn btn-primary">Add Admin</button>
         </form>
-        <a href="adminManagement.jsp" class="btn btn-primary">Manage Admins</a>
     </div>
 </body>
 </html>

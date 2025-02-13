@@ -41,6 +41,12 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
 
+        // Server-side validation
+        if (username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            response.sendRedirect("login.jsp?error=empty");
+            return;
+        }
+
         // Check if super admin
         SuperAdmin superAdmin = superAdminService.validateSuperAdmin(username, password);
         if (superAdmin != null) {
@@ -72,6 +78,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         // If invalid credentials
-        response.sendRedirect("login.jsp?error=1");
+        response.sendRedirect("login.jsp?error=invalid");
     }
 }
+

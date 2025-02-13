@@ -28,13 +28,28 @@ public class SignupServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Customer customer = (Customer) UserFactory.createUser("customer", 
-            request.getParameter("username"), 
-            request.getParameter("password"));
-        customer.setName(request.getParameter("name"));
-        customer.setAddress(request.getParameter("address"));
-        customer.setEmail(request.getParameter("email"));
-        customer.setPhone(request.getParameter("phone"));
+        String name = request.getParameter("name");
+        String address = request.getParameter("address");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        // Server-side validation
+        if (name == null || name.trim().isEmpty() || address == null || address.trim().isEmpty() ||
+            email == null || email.trim().isEmpty() || phone == null || phone.trim().isEmpty() ||
+            username == null || username.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            response.sendRedirect("signup.jsp?error=empty");
+            return;
+        }
+
+        Customer customer = new Customer();
+        customer.setName(name);
+        customer.setAddress(address);
+        customer.setEmail(email);
+        customer.setPhone(phone);
+        customer.setUsername(username);
+        customer.setPassword(password);
 
         if (customerService.addCustomer(customer)) {
             response.sendRedirect("login.jsp?success=1");
